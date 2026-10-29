@@ -153,7 +153,7 @@ INVOICE_PROMPT = """Extract the following from this invoice and return ONLY vali
 def _call_gemini_image(image_bytes: bytes) -> dict:
     image = Image.open(io.BytesIO(image_bytes))
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.8-flash",
         contents=[INVOICE_PROMPT, image]
     )
     text = response.text.strip()
@@ -162,7 +162,7 @@ def _call_gemini_image(image_bytes: bytes) -> dict:
 
 def _call_gemini_pdf(pdf_bytes: bytes) -> dict:
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.8-flash",
         contents=[
             types.Part.from_bytes(data=pdf_bytes, mime_type="application/pdf"),
             INVOICE_PROMPT
