@@ -123,6 +123,52 @@ def validate_gstin_format(gstin: str) -> dict:
     }
 
 
+_GSTIN_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def _gstin_check_char(first14: str) -> str:
+    """
+    Compute the expected 15th (checksum) character of a GSTIN using the
+    Luhn Mod-36 algorithm: multiply the first 14 characters (values 0-35)
+    by alternating factors 1, 2; add quotient + remainder (base 36) of each
+    product; the check character brings the total to a multiple of 36.
+    """
+    total = 0
+    factor = 1
+    for ch in first14:
+        digit = factor * _GSTIN_ALPHABET.index(ch)
+        total += digit // 36 + digit % 36
+        factor = 2 if factor == 1 else 1
+    return _GSTIN_ALPHABET[(36 - total % 36) % 36]
+
+
+def validate_gstin_checksum(gstin: str) -> dict:
+    """
+    Verify the GSTIN checksum character (15th character).
+    Catches single-character misreads (e.g. by OCR) that still pass the
+    format regex, as well as invented GSTINs whose last character was
+    never computed.
+    """
+    if not gstin or len(gstin.strip()) != 15:
+        return {
+            "valid": False,
+            "error": "GSTIN missing or wrong length for checksum check",
+            "risk": "HIGH"
+        }
+
+    g = gstin.strip().upper()
+    expected = _gstin_check_char(g[:14])
+    if expected != g[14]:
+        return {
+            "valid": False,
+            "gstin": g,
+            "error": f"GSTIN checksum mismatch — expected last character '{expected}', got '{g[14]}' (possible misread or invalid GSTIN)",
+            "risk": "HIGH"
+        }
+
+    return {"valid": True, "gstin": g, "risk": "NONE"}
+
+
 def validate_state_match(gstin: str, vendor_address: str) -> dict:
     """
     Check if the state in GSTIN matches the state mentioned in vendor address.
@@ -177,7 +223,7 @@ def validate_state_match(gstin: str, vendor_address: str) -> dict:
     }
 
 
-def calculate_risk_score(format_result: dict, state_result: dict) -> dict:
+def calculate_risk_score(format_result: dict, state_result: dict, checksum_result: dict = None) -> dict:
     """
     Calculate overall risk score based on all validation checks.
     """
@@ -204,6 +250,13 @@ def calculate_risk_score(format_result: dict, state_result: dict) -> dict:
     if state_risk != "NONE":
         flags.append(state_result.get("error") or state_result.get("warning", "State issue"))
 
+    # Checksum check (only supplied when the format itself is valid)
+    if checksum_result is not None:
+        checksum_risk = checksum_result.get("risk", "NONE")
+        score += risk_weights.get(checksum_risk, 0)
+        if checksum_risk != "NONE":
+            flags.append(checksum_result.get("error", "Checksum issue"))
+
     # Determine overall risk level
     if score >= 61:
         level = "CRITICAL"
@@ -215,6 +268,13 @@ def calculate_risk_score(format_result: dict, state_result: dict) -> dict:
         level = "LOW"
     else:
         level = "NONE"
+
+    # A structurally invalid GSTIN is a hard failure: block it outright,
+    # regardless of the numeric total. (Earlier the score for a lone
+    # format failure was 40, which never reached the >= 61 BLOCK
+    # threshold, so "blocked" could never actually happen.)
+    if format_risk == "CRITICAL":
+        level = "CRITICAL"
 
     return {
         "score": score,
@@ -232,18 +292,21 @@ def run_gstin_checks(gstin: str, vendor_address: str) -> dict:
     Call this from your router.
     """
     format_result = validate_gstin_format(gstin)
-    
-    # If format itself is invalid, skip state check
+
+    # If format itself is invalid, skip state and checksum checks
     if not format_result["valid"]:
         state_result = {"risk": "NONE", "match": None}
+        checksum_result = {"risk": "NONE", "valid": None}
     else:
         state_result = validate_state_match(gstin, vendor_address)
+        checksum_result = validate_gstin_checksum(gstin)
 
-    risk = calculate_risk_score(format_result, state_result)
+    risk = calculate_risk_score(format_result, state_result, checksum_result)
 
     return {
         "gstin": gstin,
         "format_check": format_result,
         "state_check": state_result,
+        "checksum_check": checksum_result,
         "risk_assessment": risk
     }
