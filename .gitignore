@@ -34,6 +34,7 @@ __pycache__/
 *.pyc
 venv/
 node_modules/
+.git-old/
 .env
 
 frontend/project/.env
