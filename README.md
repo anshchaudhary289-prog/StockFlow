@@ -2,11 +2,18 @@
 
 ## About this copy
 
-This is my personal working copy of StockFlow, a Team Auto-Stack college project (original repo: https://github.com/Krish-sharma-2003/Auto-Stack). The first commit imports the team's base code unchanged. Everything after that is my own work.
+This is my personal working copy of StockFlow — an AI-assisted invoice processing and inventory system by Team Auto-Stack (college group project, 7th semester). The idea and the initial codebase are by Krish Sharma; the original repo is https://github.com/Krish-sharma-2003/StockFlow
+The first commit in this copy imports the team's base code unchanged. Every commit after that is my own work.
 
-### My contributions
+## My role in this project
+- Project documentation, reports and summaries
+- Presentation — PPT and speaking script
+- Research paper — first author: "StockFlow: An AI-Assisted Framework for GST-Compliant Invoice Extraction and Risk-Aware Inventory Automation in SME ERP Systems"
+- Testing and a full feature audit of the application
+- Bug fixes and all ongoing development
 
-- Fixed retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) so AI invoice extraction works again
+## My contributions (in this copy)
+- Fixed the retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) — AI invoice extraction was failing with a 404 for new API users; it works again
 
 ---
 
