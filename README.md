@@ -392,11 +392,10 @@ VITE_API_BASE=https://your-backend-url.railway.app
 
 ---
 
-## 👨‍💻 Developer
-
-**Krish Sharma**  
-B.Tech CSE — MIET Meerut (2023-2027)  
-Intern at IIT Roorkee AMSC Lab  
+## 👨‍💻 Team
+**Krish Sharma** — Idea & initial codebase (B.Tech CSE, MIET Meerut)
+**Ansh Chaudhary** — Documentation, research paper (first author), testing & ongoing development (B.Tech CSE, MIET Meerut)
+Team Auto-Stack — 7th semester group project
 
 ---
 
