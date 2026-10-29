@@ -19,6 +19,10 @@ The first commit in this copy imports the team's base code unchanged. Every comm
 - Set up, ran and verified the complete application end-to-end (real invoice processed → auto-approved → stock updated)
 - Full feature audit of the application — every screen verified as real, partial or UI-only
 - Fixed the retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) — AI invoice extraction was failing with 404 errors for new API users; it works again
+- Repaired the dependency set so a fresh install actually runs (correct Gemini SDK + compatible versions for Python 3.13)
+- Restored vendor-address extraction, so the GSTIN state-match check actually works
+- Fixed risk actions — format-invalid GSTINs are now blocked instead of slipping into manual review
+- Added GSTIN checksum validation (Luhn Mod-36) with 14 automated tests
 
 ---
 
