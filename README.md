@@ -416,7 +416,6 @@ This project is licensed under the MIT License.
 - [Supabase](https://supabase.com/) — Database & Backend
 - [FastAPI](https://fastapi.tiangolo.com/) — Python API Framework
 - [shadcn/ui](https://ui.shadcn.com/) — UI Components
-- IIT Roorkee Faculty — Project guidance
 
 ---
 
