@@ -1,5 +1,15 @@
 # 🚀 StockFlow — AI-Powered Inventory & ERP System
 
+## About this copy
+
+This is my personal working copy of StockFlow, a Team Auto-Stack college project (original repo: https://github.com/Krish-sharma-2003/Auto-Stack). The first commit imports the team's base code unchanged. Everything after that is my own work.
+
+### My contributions
+
+- Fixed retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) so AI invoice extraction works again
+
+---
+
 <div align="center">
 
 ![StockFlow Banner](https://img.shields.io/badge/StockFlow-AI%20Powered%20ERP-3B82F6?style=for-the-badge&logo=lightning&logoColor=white)
