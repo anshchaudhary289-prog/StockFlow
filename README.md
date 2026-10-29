@@ -12,8 +12,13 @@ The first commit in this copy imports the team's base code unchanged. Every comm
 - Testing and a full feature audit of the application
 - Bug fixes and all ongoing development
 
-## My contributions (in this copy)
-- Fixed the retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) — AI invoice extraction was failing with a 404 for new API users; it works again
+## My contributions
+- Complete project documentation — reports, synopsis and the full submission pack
+- Presentation — PPT and speaking script
+- Research paper — first author: "StockFlow: An AI-Assisted Framework for GST-Compliant Invoice Extraction and Risk-Aware Inventory Automation in SME ERP Systems"
+- Set up, ran and verified the complete application end-to-end (real invoice processed → auto-approved → stock updated)
+- Full feature audit of the application — every screen verified as real, partial or UI-only
+- Fixed the retired Gemini model (gemini-2.5-flash → gemini-3.8-flash) — AI invoice extraction was failing with 404 errors for new API users; it works again
 
 ---
 
