@@ -141,6 +141,7 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 INVOICE_PROMPT = """Extract the following from this invoice and return ONLY valid JSON, no extra text:
 {
   "vendor_name": "",
+  "vendor_address": "",
   "gstin": "",
   "invoice_number": "",
   "invoice_date": "",
